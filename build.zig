@@ -40,10 +40,10 @@ pub fn build(b: *Build) void {
     c_example.addIncludePath(.{ .path = "include" });
     c_example.linkLibC();
     c_example.linkLibrary(lib);
+    const c_example_install = b.addInstallArtifact(c_example, .{});
 
     const c_example_step = b.step("c-example", "Example using C API");
-    c_example_step.dependOn(&lib.step);
-    c_example_step.dependOn(&c_example.step);
+    c_example_step.dependOn(&c_example_install.step);
 
     b.default_step.dependOn(test_step);
 }
