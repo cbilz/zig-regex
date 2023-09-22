@@ -27,6 +27,7 @@ pub fn build(b: *Build) void {
         .optimize = optimize,
     });
     lib.linkLibC();
+    lib.installHeadersDirectory("include", "");
 
     b.installArtifact(lib);
 
@@ -37,7 +38,6 @@ pub fn build(b: *Build) void {
         .optimize = optimize,
     });
     c_example.addCSourceFile(.{ .file = .{ .path = "example/example.c" }, .flags = &.{} });
-    c_example.addIncludePath(.{ .path = "include" });
     c_example.linkLibC();
     c_example.linkLibrary(lib);
     const c_example_install = b.addInstallArtifact(c_example, .{});
